@@ -1,49 +1,72 @@
 import React from "react";
 import "./App.css";
 import axios from "axios";
+import SearchChar from "./SearchBox";
+import SearchQuote from "./SearchQuote";
 
-class App extends React.Component{
-  constructor(){
+class App extends React.Component {
+  constructor() {
     super();
-      this.state={
-        characters : [],
-        searchField : ''
-      }
-    }
-    //
-    // getUsers = async function() {
-    //     const resp = await fetch('https://www.breakingbadapi.com/api/characters')
-    //     const users = await resp.json()
-    //     this.setState({characters:users})
-    // }
-
-    getChar = () =>{
-      axios.get(`https://www.breakingbadapi.com/api/characters?name=${this.state.searchField}`)
-           .then(response => {
-             console.log(response);
-           });
+    this.state = {
+      characters: [],
+      searchField: ""
     };
-
-    getSearch = search =>{
-      this.setState({search},() => this.getChar());
-    };
-
-
-
-  render(){
-    return(
-    <div className="container-fluid">
-      <div class="row">
-      <form id="" >
-        <button id='getChar' className="btn btn-primary mr-4">Show Characters </button>
-        <input type="submit" className="btn btn-secondary" value="Submit"/>
-      </form>
-      // </div>
-    </div>
-  )
   }
 
-}
+  getChars = () => {
+    axios
+      .get(
+        `https://www.breakingbadapi.com/api/characters?name=${
+          this.state.searchField
+        }`
+      )
+      .then(response => {
+        console.log(response);
+      });
+  };
 
+  getQuotes = () => {
+    axios
+      .get(
+        `https://www.breakingbadapi.com/api/quotes?author=${
+          this.state.searchField
+        }`
+      )
+      .then(response => {
+        console.log("aa");
+      });
+  };
+
+  getChar = search => {
+    this.setState(
+      {
+        search
+      },
+      () => this.getChars()
+    ); // console.log(this.state.keyword);
+  };
+
+  getQuote = search => {
+    this.setState(
+      {
+        search
+      },
+      () => this.getQuotes()
+    );
+  };
+
+  render() {
+    return (
+      <div className="container-fluid ">
+        <div className="row">
+          <form>
+            <SearchChar onClickMethod={this.getSearch} />
+            <SearchQuote onClickMethod={this.getQuote} />
+          </form>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default App;
