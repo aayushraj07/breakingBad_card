@@ -2,7 +2,8 @@ import React from "react";
 import "./App.css";
 import axios from "axios";
 import SearchChar from "./SearchBox";
-import SearchQuote from "./SearchQuote";
+// import SearchQuote from "./SearchQuote";
+import Result from "./result";
 
 class App extends React.Component {
   constructor() {
@@ -13,7 +14,7 @@ class App extends React.Component {
     };
   }
 
-  getChars = () => {
+  getChar = () => {
     axios
       .get(
         `https://www.breakingbadapi.com/api/characters?name=${
@@ -21,48 +22,42 @@ class App extends React.Component {
         }`
       )
       .then(response => {
+        const characters = response.data;
+        console.log(response.data);
+        this.setState({
+          characters
+        });
+        console.log(this.state.searchField);
         console.log(response);
       });
   };
 
-  getQuotes = () => {
+  componentDidMount() {
     axios
-      .get(
-        `https://www.breakingbadapi.com/api/quotes?author=${
-          this.state.searchField
-        }`
-      )
+      .get(`https://www.breakingbadapi.com/api/characters`)
       .then(response => {
-        console.log("aa");
+        this.setState({ characters: response });
+        console.log(response);
       });
-  };
-
-  getChar = search => {
-    this.setState(
-      {
-        search
-      },
-      () => this.getChars()
-    ); // console.log(this.state.keyword);
-  };
-
-  getQuote = search => {
-    this.setState(
-      {
-        search
-      },
-      () => this.getQuotes()
-    );
-  };
+  }
 
   render() {
     return (
-      <div className="container-fluid ">
-        <div className="row">
-          <form>
-            <SearchChar onClickMethod={this.getSearch} />
-            <SearchQuote onClickMethod={this.getQuote} />
-          </form>
+      <div className="container">
+        <div className="row col-md-12 ">
+          <h1 align="center">BreakingBad MACHINE!</h1>
+        </div>
+
+        <div className="row col-md-6">
+          <button
+            className="btn btn-primary btn-block"
+            onClick={this.showChars}
+          >
+            Show ALl Characters!
+          </button>
+          <SearchChar onClickMethod={this.getChar} />
+          {/* <ShowAll /> */}
+          <Result info={this.state.characters} />
         </div>
       </div>
     );
@@ -70,3 +65,7 @@ class App extends React.Component {
 }
 
 export default App;
+
+// getChar = searchField => {
+//   this.setState({searchField},() => this.showChars());
+// };
