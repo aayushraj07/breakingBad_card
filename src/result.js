@@ -6,9 +6,9 @@ const Result = props => {
   return (
     <div>
       <ul>
-        {/* {this.props.info.map((characters) => (
+        {this.props.info.map(characters => (
           <li>{characters.name}</li>
-        ))} */}
+        ))}
       </ul>
     </div>
   );
