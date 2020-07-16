@@ -1,16 +1,17 @@
 import React from "react";
+// import ResultItems from "./resultItems";
 // import "./result.css";
 
-const Result = props => {
-  //   render();
-  return (
-    <div>
-      <ul>
-        {/* {this.props.info.map((characters) => (
-          <li>{characters.name}</li>
-        ))} */}
-      </ul>
-    </div>
+const Result = ({ characters, isLoading }) => {
+  return isLoading ? (
+    <h1>Loading...</h1>
+  ) : (
+    <section className="cards">
+      {characters.map(character => {
+        <h1>{character.name}</h1>;
+      })}
+    </section>
   );
 };
+
 export default Result;
